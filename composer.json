@@ -6,7 +6,10 @@
       "App\\": "App/",
       "Config\\": "Config/",
       "Seeder\\": "database/"
-    }
+    },
+    "files": [
+      "container/CoreFunction.php"
+    ]
   },
   "authors": [
     {
@@ -14,5 +17,7 @@
       "email": "iftakharalam32@gmail.com"
     }
   ],
-  "require": {}
+  "require-dev": {
+    "symfony/var-dumper": "^5.4"
+  }
 }

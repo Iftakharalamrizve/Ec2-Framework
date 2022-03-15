@@ -10,11 +10,24 @@ define('APPLICATION_PATH',substr(realpath(dirname(__FILE__)),0,-6));
 |--------------------------------------------------------------------------
 |
 |Composer Autoload loaded automatically generated class loader for
-| our application. We can use this tricks . We only require autoload file .
+|our application. We can use this tricks . We only require autoload file .
 |
 */
 
 require __DIR__.'/../vendor/autoload.php';
+
+
+/*
+|--------------------------------------------------------------------------
+| Configure Error File
+|--------------------------------------------------------------------------
+|
+|Error File load all error in development mode .
+|Error Handle Exception and other type error manage this file .
+|
+*/
+
+
 
 
 
