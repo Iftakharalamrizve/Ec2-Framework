@@ -4,7 +4,8 @@
     "psr-4": {
       "App\\": "app/",
       "Config\\": "config/",
-      "Seeder\\": "database/"
+      "Seeder\\": "database/",
+      "Core\\": "container/"
     },
     "files": [
       "container/CoreFunction.php"

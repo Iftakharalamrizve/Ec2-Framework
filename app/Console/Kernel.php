@@ -2,18 +2,28 @@
 
 namespace App\Console;
 
+use Symfony\Component\Console\Application;
+use App\Console\Commands\CreateCommand;
+use App\Console\Commands\TestCommand;
+
 class Kernel
 {
-    public function commands()
+
+
+    public function __construct()
     {
-        $path    = '/Commands/';
-        $files = array_diff(scandir('.'.$path), array('.', '..'));
-        foreach ($files as $file){
-//            echo __DIR__.$path.$file;
-            echo  APPLICATION_PATH;
-        }
+
+    }
+
+
+    /**
+     * Register the commands for the application command folder.
+     *
+     * @return void
+     */
+    protected function load($app)
+    {
+
 
     }
 }
-$obj = new Kernel;
-$obj->commands();
