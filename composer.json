@@ -2,11 +2,12 @@
   "name": "rizve/mvc",
   "autoload": {
     "psr-4": {
-      "Core\\": "src/",
-      "App\\": "App/",
-      "Config\\": "Config/",
+      "Console\\": "src",
+      "App\\": "app/",
+      "Config\\": "config/",
       "Seeder\\": "database/"
     },
+    "classmap": ["src"],
     "files": [
       "container/CoreFunction.php"
     ]
@@ -19,5 +20,8 @@
   ],
   "require-dev": {
     "symfony/var-dumper": "^5.4"
+  },
+  "require": {
+    "symfony/console": "^5.4"
   }
 }
