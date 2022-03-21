@@ -1,0 +1,23 @@
+{
+    "name": "iftakharalamrizve/mvc-core",
+    "autoload": {
+        "files": [
+            "./support/common.php"
+        ],
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "iftakharalamrizve",
+            "email": "iftakharalam32@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.4"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.4"
+    }
+}
