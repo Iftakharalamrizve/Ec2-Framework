@@ -5,15 +5,14 @@ namespace app\core;
 
 class Request
 {
-
-
-
+    /**
+     * @var array
+     */
     public array $inputs = [];
 
-    public function __construct()
-    {
-        $this->inputs = $this->getBody();
-    }
+    /**
+     * @var array|string[]
+     */
     protected array $rules = [
         'required' => 'This field is required',
         'email'=> 'This field must be valid email address',
@@ -22,10 +21,25 @@ class Request
         'match' => 'This field must be the same as {match}',
         'unique'=> 'Record with with this {field} already exists'
     ];
-
+    /**
+     * @var array
+     */
     public array $errors = [] ;
+    /**
+     * @var array
+     */
     private array $message = [];
 
+
+
+    public function __construct()
+    {
+        $this->inputs = $this->getBody();
+    }
+
+    /**
+     * @return false|mixed|string
+     */
     public function getPath()
     {
         $path = $_SERVER['REQUEST_URI'] ?? '/';
@@ -37,21 +51,34 @@ class Request
 
     }
 
+    /**
+     * @return string
+     */
     public function getMethod(): string
     {
         return strtolower($_SERVER['REQUEST_METHOD']);
     }
 
-    public function isGet() : string
+    /**
+     * @return bool
+     */
+    public function isGet() : bool
     {
         return $this->getMethod() === 'get';
     }
 
-    public function isPost() : string
+    /**
+     * @return bool
+     */
+    public function isPost() : bool
     {
         return $this->getMethod() === 'post';
     }
 
+
+    /**
+     * @return array
+     */
     public function getBody() : array
     {
         $body = [];
@@ -66,10 +93,15 @@ class Request
                 $body[$key] = filter_input(INPUT_POST,$key,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             }
         }
-
         return $body;
     }
 
+    /**
+     * @param array $data
+     * @param array $attribute
+     * @param array $message
+     * @return array|false
+     */
     public function validateRequest( array $data = [] , array $attribute = [] , array $message = [] )
     {
         $attributeList = $attribute;
@@ -87,36 +119,46 @@ class Request
     }
 
 
+    /**
+     * @param $data
+     * @param $attribute
+     * @return array
+     */
     private function validationErrorGenerate( $data , $attribute ):array
     {
-        if(count($attribute)>0){
-            foreach ($attribute as $attributeKey=>$item){
-                $filedData = $data[$attributeKey]??'';
-                if(array_key_exists($attributeKey,$this->errors)){
-                    continue;
-                }
-                $explodeAllAttribute = explode('|',$item);
-                foreach ($explodeAllAttribute as $explodeRuleKey=>$value){
-
-                    $pos = strpos($value,':');
-                    $forMaxMinMatch='';
-                    if($pos){
-                        $ruleKey = substr($value,0,$pos);
-                        $forMaxMinMatch = substr($value,$pos+1,strlen($value));
-                    }else{
-                        $ruleKey = $value ;
-                    }
-
-                    $this->validateRequestData($filedData,$ruleKey,$attributeKey,$forMaxMinMatch);
-                }
+        if(count($attribute)>0) foreach ($attribute as $attributeKey=> $item){
+            $filedData = $data[$attributeKey]??'';
+            if(array_key_exists($attributeKey,$this->errors)){
+                continue;
             }
-        }else{
+            $explodeAllAttribute = explode('|',$item);
+            foreach ($explodeAllAttribute as $value){
+
+                $pos = strpos($value,':');
+                $forMaxMinMatch='';
+                if($pos){
+                    $ruleKey = substr($value,0,$pos);
+                    $forMaxMinMatch = substr($value,$pos+1,strlen($value));
+                }else{
+                    $ruleKey = $value ;
+                }
+
+                $this->validateRequestData($filedData,$ruleKey,$attributeKey,$forMaxMinMatch);
+            }
+        }
+        else{
             $this->errors = [] ;
         }
         return $this->errors;
     }
 
-    public function validateRequestData($info , $ruleName , $attribute, $forMaxMinMatch=0)
+    /**
+     * @param     $info
+     * @param     $ruleName
+     * @param     $attribute
+     * @param int $forMaxMinMatch
+     */
+    private function validateRequestData( $info , $ruleName , $attribute,  $forMaxMinMatch=0)
     {
         if ($ruleName === 'required' && !$info) {
             $this->addErrorByRule($attribute,$ruleName);
@@ -135,7 +177,13 @@ class Request
         }
     }
 
-    public function addErrorByRule($attribute,$rule,$lenght='',$isReplace=false)
+    /**
+     * @param        $attribute
+     * @param        $rule
+     * @param string $lenght
+     * @param false  $isReplace
+     */
+    private function addErrorByRule( $attribute, $rule, $lenght='', $isReplace=false)
     {
         if(array_key_exists($rule,$this->rules)){
 
@@ -154,7 +202,12 @@ class Request
 
     }
 
-    public function old ($attributeName){
+    /**
+     * @param $attributeName
+     * @return mixed|string
+     */
+    public function old ( $attributeName)
+    {
         if(array_key_exists($attributeName,$this->inputs)){
             return $this->inputs[$attributeName];
         }
@@ -162,11 +215,13 @@ class Request
     }
 
     /**
-     * @return array
+     * @param string $attribute
+     * @return bool
      */
     public function error(string $attribute):bool
     {
-        if(array_key_exists($attribute,$this->errors)){
+        if(array_key_exists($attribute,$this->errors))
+        {
             return true;
         }
         return false;

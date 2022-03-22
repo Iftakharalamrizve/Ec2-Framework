@@ -16,13 +16,14 @@ class AuthController extends Controller
     {
         $this->registrationRequest = new RegistrationRequest();
     }
+
     public function register(Request $request)
     {
         if($request->isPost()){
 
         }
         $this->setLayout('auth');
-        return $this->render('register');
+        return $this->render('auth','register');
     }
 
 

@@ -13,6 +13,6 @@ class HomeController extends Controller
              'name'=>'Iftakhar Alam Rizve',
              'email' => 'iftakharalam32@gmail.com'
          ];
-        return $this->render('home',$data);
+        return $this->render('layout','home',$data);
      }
 }

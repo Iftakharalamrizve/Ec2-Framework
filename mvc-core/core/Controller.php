@@ -4,28 +4,56 @@ namespace app\core;
 
 class Controller
 {
+    /**
+     * @var string
+     */
     public String $layout = 'layout';
+
+    /**
+     * @var array
+     */
     public array $errors = [] ;
+
+    /**
+     * @var bool
+     */
     public bool $withInput = false;
 
-    public function render($baseLayout = 'layout', $name,$params=[])
+    /**
+     * @param string $baseLayout
+     * @param string $name
+     * @param array  $params
+     * @return array|false|string|string[]
+     */
+    public function render( string $baseLayout = 'layout', string $name, array $params=[])
     {
         $this->layout = $baseLayout ;
         return Application::$app->router->renderView( $name,$params);
     }
 
-    public function setLayout($name='layout',$param=[])
+    /**
+     * @param string $name
+     * @param array  $param
+     */
+    public function setLayout( string $name='layout', array $param=[])
     {
         $this->layout = $name ;
     }
 
-    public function withErrors(array $errors = [])
+    /**
+     * @param array $errors
+     * @return $this
+     */
+    public function withErrors( array $errors = []) : Controller
     {
         $this->errors = $errors;
         return $this;
     }
 
-    public function withInputs()
+    /**
+     * @return $this
+     */
+    public function withInputs() : Controller
     {
         $this->withInput = true ;
         return $this;

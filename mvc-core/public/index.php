@@ -1,21 +1,20 @@
 <?php
+
 error_reporting(E_ALL);
-require_once __DIR__.'/../vendor/autoload.php';
 
-use app\controllers\AuthController;
-use app\controllers\ContactController;
-use app\controllers\HomeController;
-use app\core\Application;
 
-$app = new Application(dirname(__DIR__));
+$app = require __DIR__.'/../bootstrap/app.php';
 
-$app->router->get('/',[HomeController::class,'index']);
-$app->router->get('/contact',[ContactController::class,'index']);
-$app->router->post('/contact',[ContactController::class,'save']);
-//Register and login route
-$app->router->get('/register',[AuthController::class,'register']);
-$app->router->post('/register',[AuthController::class,'register']);
-$app->router->get('/login',[AuthController::class,'login']);
-$app->router->post('/login',[AuthController::class,'login']);
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+|
+| Once we have the application, we can handle the incoming request
+| through the route, and send the associated response back to
+| the client's browser allowing them to enjoy the creative
+| and wonderful application we have prepared for them.
+|
+*/
 
 $app->run();
