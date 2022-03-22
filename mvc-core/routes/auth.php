@@ -1,6 +1,5 @@
 <?php
 
-
 use app\controllers\AuthController;
 
 $router->get( '/register', [ AuthController::class , 'register']);
