@@ -22,8 +22,7 @@ class AuthController extends Controller
         if($request->isPost()){
 
         }
-        $this->setLayout('auth');
-        return $this->render('auth','register');
+        return $this->render('auth','auth.register');
     }
 
 
@@ -35,6 +34,6 @@ class AuthController extends Controller
             $userModel->loadUserData($request->inputs);
             return $this->withErrors($errors)->withInputs()->render('auth','login');
         }
-        return $this->render('auth','login');
+        return $this->render('auth','auth.login');
     }
 }

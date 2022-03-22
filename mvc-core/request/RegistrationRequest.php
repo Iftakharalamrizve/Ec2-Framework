@@ -6,18 +6,11 @@ use app\core\Request;
 
 class RegistrationRequest extends Request
 {
-    public function __construct()
-    {
-
-    }
-
 
     /**
-     * attributes can be changed here like the following
-     * 'user_name'=>'User Name', or 'user_name'=>trnas('your_translation_file.user_name')
-     * @return [type] [description]
+     * @return string[]
      */
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'first_name'=>'required|max:256',
@@ -28,12 +21,11 @@ class RegistrationRequest extends Request
         ];
     }
 
+
     /**
-     * form validation messages can be changed and translated by this method like the following
-     * 'user_name.required'=>'Please provide user name' or 'user_name.required'=>trans('your_translation_file.user_name_msg')
-     * @return [type] [description]
+     * @return string[]
      */
-    public function messages()
+    public function messages(): array
     {
         return [
 

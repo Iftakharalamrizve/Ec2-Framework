@@ -153,8 +153,9 @@ class Router
         foreach ($params as $key=>$value){
             $$key = $value ;
         }
+        $name = str_replace('.','/',$view);
         ob_start();
-        include_once Application::$ROOT_DIR."/views/$view.php";
+        include_once Application::$ROOT_DIR."/views/$name.php";
         return ob_get_clean();
     }
 
