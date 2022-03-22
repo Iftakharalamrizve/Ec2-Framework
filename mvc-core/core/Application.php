@@ -44,6 +44,14 @@ class Application
     /**
      * The application instance store this property .
      *
+     * @var Databse
+     */
+    public Databse $db;
+    
+
+    /**
+     * The application instance store this property .
+     *
      * @var \app\core\Controller
      */
     public Controller $controller;
@@ -53,8 +61,7 @@ class Application
      * Create Request and Response class instance
      * Create New router instance and pass Request and Response class
      *
-     * @param  string|null  $dirName
-     * @return void
+     * @param string $dirName
      */
     public function __construct(string $dirName)
     {
@@ -63,6 +70,7 @@ class Application
         $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router( $this->request , $this->response );
+        $this->db = new Databse();
     }
 
     /**
