@@ -3,8 +3,11 @@
 use app\core\Application;
 
 require_once __DIR__.'/../vendor/autoload.php';
-$app = new Application(dirname(__DIR__));
+$dotenv = Dotenv\Dotenv::createImmutable(dirname ( __DIR__));
+$dotenv->load();
 
+$config = require_once __DIR__.'/../config/config.php';
+$app = new Application(dirname(__DIR__),$config);
 
 
 $baseDir=scandir(dirname(__DIR__).'/routes');

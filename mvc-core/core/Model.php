@@ -5,6 +5,13 @@ namespace app\core;
 
 abstract class Model
 {
+    public mixed $mysql;
+
+    public function __construct()
+    {
+        $this->connection ();
+    }
+
     /**
      * Load All Request data from user input
      * Load
@@ -17,6 +24,11 @@ abstract class Model
                 $this->{$key} = $value ;
             }
         }
+    }
+
+    public function connection():void
+    {
+        $this->mysql = Application::$app->db->mysql instanceof \PDO?Application::$app->db->mysql:null;
     }
 
 
