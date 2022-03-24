@@ -32,10 +32,11 @@ class AuthController extends Controller
                     'c_password'=>'match:password'
                 ]);
             $this->userModel->loadUserData($request->inputs);
+            dd($this->userModel->first_name1);
 
-            if($errors && $this->userModel->create()){
-
-            }
+//            if($errors && $this->userModel->create()){
+//
+//            }
             return $this->withErrors($errors)->withInputs()->render('auth','auth.register');
         }
         return $this->render('auth','auth.register');

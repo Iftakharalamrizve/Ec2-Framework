@@ -10,6 +10,20 @@ class DBModel extends Model
      */
     public array $fillableData = [];
 
+
+
+    public function __set($propertyName , $value)
+    {
+        $this->fillableData[$propertyName] = $value;
+    }
+
+    public function __get($name)
+    {
+        if(array_key_exists ( $name , $this->fillableData)) {
+            return $this->fillableData[$name];
+        }
+    }
+
     /**
      * Load All Request data from user input
      * Load
@@ -17,9 +31,9 @@ class DBModel extends Model
      */
     public function loadUserData( $data)
     {
-        foreach ($data as $key=>$value){
-            if(in_array($key,$this->fillable)){
-                $this->fillableData[ $key] = $value ;
+        foreach ($data as $key=>$value) {
+            if(in_array($key,$this->fillable)) {
+                $this->{$key}= $value ;
             }
         }
     }
