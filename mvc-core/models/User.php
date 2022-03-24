@@ -12,6 +12,13 @@ class User  extends DBModel
 
 
 
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = password_hash ( $value , PASSWORD_DEFAULT );
+
+    }
+
+
 
 
 }
