@@ -6,7 +6,9 @@ use app\core\DBModel;
 
 class User  extends DBModel
 {
-    protected $fillable = ['first_name','last_name','email','password'];
-    protected $table = 'users';
+    public $fillable = ['first_name','last_name','email','password'];
+    public $table = 'users';
+
+
 
 }

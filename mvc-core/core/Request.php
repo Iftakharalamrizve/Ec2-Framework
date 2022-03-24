@@ -102,7 +102,7 @@ class Request
      * @param array $message
      * @return array|false
      */
-    public function validateRequest( array $data = [] , array $attribute = [] , array $message = [] )
+    public function validateRequest( array $attribute  , array $message = [] )
     {
         $attributeList = $attribute;
         $messageList = $message;
@@ -111,7 +111,7 @@ class Request
             $messageList = $this->messages()??[];
         }
         $this->message = $messageList;
-        $errorInfo = $this->validationErrorGenerate($data,$attributeList );
+        $errorInfo = $this->validationErrorGenerate($this->inputs,$attributeList );
         if(!$errorInfo){
             return false;
         }
@@ -173,7 +173,7 @@ class Request
             $this->addErrorByRule($attribute, $ruleName,$forMaxMinMatch,true);
         }
         if ($ruleName === 'match' && $info !== $forMaxMinMatch) {
-            $this->addErrorByRule($attribute,$ruleName);
+            $this->addErrorByRule($attribute,$ruleName,$forMaxMinMatch,true);
         }
     }
 
@@ -183,7 +183,7 @@ class Request
      * @param string $lenght
      * @param false  $isReplace
      */
-    private function addErrorByRule( $attribute, $rule, $lenght='', $isReplace=false)
+    private function addErrorByRule( $attribute, $rule, $replaceData='', bool $isReplace=false)
     {
         if(array_key_exists($rule,$this->rules)){
 
@@ -192,7 +192,9 @@ class Request
             $messageKeyTwo = $rule==='required' ? $attribute : $messageKeyOne;
             if($isReplace){
                 if(array_key_exists($messageKeyOne,$this->message)){
-                    $messageInfo = str_replace("{{$rule}}",$lenght,$this->message[$messageKeyOne]);
+                    $messageInfo = str_replace("{{$rule}}",$replaceData,$this->message[$messageKeyOne]);
+                }else{
+                    $messageInfo = str_replace("{{$rule}}",$replaceData,$this->rules[$rule]);
                 }
             }elseif(array_key_exists($messageKeyTwo,$this->message) || array_key_exists($messageInfo,$this->message)){
                 $messageInfo = $this->message[$messageKeyOne] ?? $this->message[$messageKeyTwo];

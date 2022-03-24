@@ -9,7 +9,7 @@
     </div>
     <div class="row">
         <div class="col-md-4 offset-md-4">
-            <form method="post" action="/login">
+            <form method="post" action="/registration">
                 <div class="mb-3">
                     <label  class="form-label">First Name:</label>
                     <input type="text" class="form-control <?php echo $request->error('first_name')?'is-invalid':'' ?>" name="first_name" value="<?php echo $request->old('first_name') ?>" required>
