@@ -27,16 +27,16 @@ class AuthController extends Controller
                 [
                     'first_name'=>'required|max:256',
                     'last_name'=>'required|max:256',
-                    'email'=>'required|email',
+                    'email'=>'required|email|unique:users,email',
                     'password'=>'required|max:6|min:1',
                     'c_password'=>'match:password'
                 ]);
             $this->userModel->loadUserData($request->inputs);
-            dd($this->userModel->first_name1);
 
-//            if($errors && $this->userModel->create()){
-//
-//            }
+            if(!$errors && $this->userModel->save()){
+                echo "Success";
+                exit;
+            }
             return $this->withErrors($errors)->withInputs()->render('auth','auth.register');
         }
         return $this->render('auth','auth.register');

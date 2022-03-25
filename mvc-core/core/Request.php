@@ -19,7 +19,7 @@ class Request
         'min'=>'Min length of this field must be {min}',
         'max'=>'Min length of this field must be {max}',
         'match' => 'This field must be the same as {match}',
-        'unique'=> 'Record with with this {field} already exists'
+        'unique'=> 'Record with with this {unique} already exists'
     ];
     /**
      * @var array
@@ -174,6 +174,23 @@ class Request
         }
         if ($ruleName === 'match' && $info !== $forMaxMinMatch) {
             $this->addErrorByRule($attribute,$ruleName,$forMaxMinMatch,true);
+        }
+        if ($ruleName === 'unique') {
+            $classNameAndProperty = explode(',',$forMaxMinMatch);
+            [$tableName, $columName] = $classNameAndProperty;
+            $id = $classNameAndProperty[2]??null;
+            $db = Application::$app->db;
+            $statement = $db->prepare("SELECT * FROM $tableName WHERE $columName = :$columName");
+            $statement->bindValue(":$columName", $info);
+            $statement->execute();
+            $record = $statement->fetchObject();
+            if($id != null){
+                if($id != $record->id){
+                    $this->addErrorByRule($attribute,$ruleName,$columName,true);
+                }
+            }elseif ($record){
+                $this->addErrorByRule($attribute,$ruleName,$columName,true);
+            }
         }
     }
 

@@ -49,4 +49,15 @@ class Databse
                                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
                             ) ENGINE=INNODB;");
     }
+
+
+    public function prepare($sql): \PDOStatement
+    {
+        return $this->mysql->prepare($sql);
+    }
+
+    private function log($message)
+    {
+        echo "[" . date("Y-m-d H:i:s") . "] - " . $message . PHP_EOL;
+    }
 }

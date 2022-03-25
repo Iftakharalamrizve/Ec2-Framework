@@ -1,9 +1,12 @@
 <?php
 
-namespace app\core;
+namespace app\core\DBModel;
 
-class DBModel extends Model
+use app\core\Model;
+
+abstract class DBModel extends Model  implements  ORMInterFace
 {
+    use ORMTrait;
 
     /**
      * @var array
@@ -31,27 +34,25 @@ class DBModel extends Model
      */
     public function loadUserData( $data)
     {
-
         foreach ($data as $key=>$value) {
             if(in_array($key,$this->fillable)) {
-                $status = $this->haveAnyMutators($key);
+                $status = $this->haveAnyMutators($key,$value);
                 if(!$status){
                     $this->{$key}= $value ;
                 }
 
             }
         }
-        dd($this->attributes);
+
     }
 
-    public function haveAnyMutators($key) : bool
+    public function haveAnyMutators($key,$value) : bool
     {
-
         $functionName = 'set'.str_replace(' ','',ucwords(str_replace ( '_' , ' ' , $key))).'Attribute';
-        if (method_exists(get_parent_class($this), $functionName)) {
-            parent::$functionName();
-            return true;
-        }
+          if(method_exists($this,$functionName)){
+              $this->{$functionName}($value);
+              return true;
+          }
         return false;
     }
 }
