@@ -172,8 +172,11 @@ class Request
         if ($ruleName === 'max' && strlen($info) > $forMaxMinMatch) {
             $this->addErrorByRule($attribute, $ruleName,$forMaxMinMatch,true);
         }
-        if ($ruleName === 'match' && $info !== $forMaxMinMatch) {
-            $this->addErrorByRule($attribute,$ruleName,$forMaxMinMatch,true);
+        if ($ruleName === 'match') {
+            if($info !== $this->inputs[$attribute]??''){
+                $this->addErrorByRule($attribute,$ruleName,$forMaxMinMatch,true);
+            }
+
         }
         if ($ruleName === 'unique') {
             $classNameAndProperty = explode(',',$forMaxMinMatch);

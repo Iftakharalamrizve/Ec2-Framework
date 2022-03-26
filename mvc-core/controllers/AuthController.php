@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\core\auth\Auth;
 use app\core\Controller;
 use app\core\Request;
 use app\models\User;
@@ -34,8 +35,7 @@ class AuthController extends Controller
             $this->userModel->loadUserData($request->inputs);
 
             if(!$errors && $this->userModel->save()){
-                echo "Success";
-                exit;
+                $this->redirect('/');
             }
             return $this->withErrors($errors)->withInputs()->render('auth','auth.register');
         }
@@ -45,12 +45,34 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-
         if ($this->registrationRequest->isPost()){
-            $errors = $this->registrationRequest->validateRequest();
-            $this->userModel->loadUserData($request->inputs);
-            return $this->withErrors($errors)->withInputs()->render('auth','login');
+            $errors = $this->registrationRequest->validateRequest(
+                [
+                    'email'=>'required|email',
+                    'password'=>'required'
+                ]
+            );
+
+           if(!$errors){
+               $this->attemptLogin($request->inputs);
+           }else{
+               return $this->withErrors($errors)->withInputs()->render('auth','auth.login');
+           }
         }
         return $this->render('auth','auth.login');
+    }
+
+    public  function attemptLogin(array $data)
+    {
+        $findUser = $this->userModel->findOne(['email'=>$data['email']]);
+        if (!$findUser) {
+            return false;
+        }
+        if (!password_verify($data['password'], $findUser->password)) {
+            dd(123);
+            return false;
+        }
+
+        $this->redirect('/');
     }
 }

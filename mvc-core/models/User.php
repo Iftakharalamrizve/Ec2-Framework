@@ -8,11 +8,7 @@ class User  extends DBModel
 {
     public $fillable = ['first_name','last_name','email','password'];
     public $table = 'users';
-
-    public function userSave()
-    {
-
-    }
+    public $primaryKey ='id';
 
     /**
      * @param $value

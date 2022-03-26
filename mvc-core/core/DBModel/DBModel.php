@@ -13,7 +13,10 @@ abstract class DBModel extends Model  implements  ORMInterFace
      */
     public array $attributes = [];
 
-
+    public function primaryKey(): string
+    {
+        return $this->primaryKey??'id';
+    }
 
     public function __set($propertyName , $value)
     {

@@ -44,6 +44,13 @@ class Application
     /**
      * The application instance store this property .
      *
+     * @var Session
+     */
+    public Session $session;
+
+    /**
+     * The application instance store this property .
+     *
      * @var Databse
      */
     public Databse $db;
@@ -71,6 +78,7 @@ class Application
         $this->response = new Response();
         $this->router = new Router( $this->request , $this->response );
         $this->db = new Databse($config['database']);
+        $this->session = new Session();
 
     }
 
