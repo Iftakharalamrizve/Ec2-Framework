@@ -4,47 +4,79 @@ namespace app\core\auth;
 
 use app\core\Application;
 use app\core\DBModel\DBModel;
+use app\core\Session;
 
 class Auth
 {
-    protected static $user;
-    protected static $session;
-    protected static $userClass;
 
-    static function __callStatic ( string $name , array $arguments )
-    {   dd(Application::$app->session);
-        self::$session = Application::$app->session;
-        self::$userClass = Application::$app->user;
-        return call_user_func_array([Auth::class, $name], $arguments);
+    protected $user ;
+    protected Session $session;
+    protected $userClass;
+
+    public function __construct()
+    {
+        $this->userClass = Application::$app->user;
+        $this->session = Application::$app->session;
     }
 
-    public static function login(DBModel $user):bool
+    public function __call($name, $arguments)
+    {
+        $name .=  'Auth';
+        if(method_exists($this,$name)){
+
+            return call_user_func_array(array($this, $name), $arguments);
+        }
+    }
+
+    public static function __callStatic($name, $arguments)
+    {
+        $name .=  'Auth';
+        if(method_exists(Auth::class,$name)){
+            $authObject = new Auth();
+             /**
+             * You can write here any code you want to be run
+             * before a static method is called
+             */
+            return call_user_func_array(array($authObject, $name), $arguments);
+        }
+    }
+
+    public  function loginAuth(DBModel $user):bool
     {
         try {
-            self::$user = $user;
+            $this->user = $user;
             $primaryKey = $user->primaryKey();
             $primaryKeyValue = $user->{$primaryKey};
-            self::$session->set('user',$primaryKeyValue);
+            $this->session->set('user',$primaryKeyValue);
             return true;
         }catch (\Exception $e){
             return false;
         }
     }
 
-    public static function logout()
+    public  function logoutAuth()
     {
-        self::$user = null;
-        $session = Application::$app->session;
-        $session->remove('user');
+        $this->user = null;
+        $this->session->remove('user');
+        return true;
     }
 
-    public static function user()
+    public function isGuestAuth()
     {
-        dd(self::$session);
-        $userId =  self::$session->get('user');
+        $user = $this->userAuth();
+        if($user){
+            return false;
+        }
+        return true;
+
+    }
+
+    public  function userAuth()
+    {
+        $userId =  $this->session->get('user');
         if ($userId) {
-            $key = self::$userClass->primaryKey();
-            $userFind = self::$user = self::$userClass::findOne([$key => $userId]);
+            $key = $this->userClass->primaryKey();
+            $userFind =  $this->userClass->findOne([$key => $userId]);
             if(!$userFind){
                 return null;
             }

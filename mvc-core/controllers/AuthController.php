@@ -74,6 +74,14 @@ class AuthController extends Controller
         return $this->render('auth','auth.login');
     }
 
+    public function logout(Request $request)
+    {
+        if(Auth::logout()){
+            return $this->redirect('/login');
+        }
+        return $this->redirect('/');
+    }
+
     /**
      * @param array $data
      * @return false|void

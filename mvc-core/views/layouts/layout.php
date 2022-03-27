@@ -2,7 +2,6 @@
 
 use app\core\auth\Auth;
 
-dd ( Auth::user ());
 ?>
 <!doctype html>
 <html lang="en">
@@ -47,8 +46,24 @@ dd ( Auth::user ());
                 </li>
             </ul>
             <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <?php if(Auth::isGuest()): ?>
+                    <a class="btn btn-outline-success" href="/login">Login</a>
+
+
+                <?php else : ?>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/profile">
+                                Profile
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/logout">
+                                Welcome <?php echo Auth::user()->first_name ?> (Logout)
+                            </a>
+                        </li>
+                    </ul>
+                <?php endif; ?>
             </form>
         </div>
     </div>
