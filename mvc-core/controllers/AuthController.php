@@ -12,7 +12,11 @@ use app\request\RegistrationRequest;
 class AuthController extends Controller
 {
     protected RegistrationRequest $registrationRequest ;
+    /**
+     * @var \app\models\User
+     */
     protected User $userModel;
+
 
     public function __construct()
     {
@@ -20,7 +24,11 @@ class AuthController extends Controller
         $this->userModel = new User();
     }
 
-    public function register(Request $request)
+    /**
+     * @param \app\core\Request $request
+     * @return array|false|string|string[]
+     */
+    public function register( Request $request)
     {
 
         if($request->isPost()){
@@ -43,7 +51,11 @@ class AuthController extends Controller
     }
 
 
-    public function login(Request $request)
+    /**
+     * @param \app\core\Request $request
+     * @return array|false|string|string[]
+     */
+    public function login( Request $request)
     {
         if ($this->registrationRequest->isPost()){
             $errors = $this->registrationRequest->validateRequest(
@@ -62,17 +74,24 @@ class AuthController extends Controller
         return $this->render('auth','auth.login');
     }
 
-    public  function attemptLogin(array $data)
+    /**
+     * @param array $data
+     * @return false|void
+     */
+    public  function attemptLogin( array $data)
     {
         $findUser = $this->userModel->findOne(['email'=>$data['email']]);
         if (!$findUser) {
             return false;
         }
-        if (!password_verify($data['password'], $findUser->password)) {
-            dd(123);
-            return false;
+        if (password_verify($data['password'], $findUser->password)) {
+            if(Auth::login ( $findUser)){
+                return $this->redirect('/');
+            }
+            return $this->redirect('/login');
+        }else{
+            return $this->redirect('/login');
         }
 
-        $this->redirect('/');
     }
 }

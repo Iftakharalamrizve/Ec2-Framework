@@ -1,5 +1,7 @@
 <?php
 
+use app\models\User;
+
 return [
 
     /*
@@ -25,6 +27,8 @@ return [
     | you may use many connections at once using the Database library.
     |
     */
+
+    'user'=>app\models\User::class,
 
     'database' => [
         'mysql' => [

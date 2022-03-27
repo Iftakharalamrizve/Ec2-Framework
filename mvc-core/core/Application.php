@@ -2,6 +2,7 @@
 
 namespace app\core;
 use app\core\router\Router;
+use app\models\User;
 
 class Application
 {
@@ -63,6 +64,14 @@ class Application
      */
     public Controller $controller;
 
+
+    /**
+     * The application instance store Application User Model  .
+     *
+     * @var User
+     */
+    public  ?User $user;
+
     /**
      * Create a new  Application class instance for full framework example Application::$app.
      * Create Request and Response class instance
@@ -79,7 +88,7 @@ class Application
         $this->router = new Router( $this->request , $this->response );
         $this->db = new Databse($config['database']);
         $this->session = new Session();
-
+        $this->user = new $config['user']();
     }
 
     /**

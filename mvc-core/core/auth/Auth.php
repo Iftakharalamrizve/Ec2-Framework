@@ -8,36 +8,49 @@ use app\core\DBModel\DBModel;
 class Auth
 {
     protected static $user;
-    protected  static $session;
-    protected static $dbClass;
+    protected static $session;
+    protected static $userClass;
 
-    public function __construct()
-    {
-        $this->session = Application::$app->session;
+    static function __callStatic ( string $name , array $arguments )
+    {   dd(Application::$app->session);
+        self::$session = Application::$app->session;
+        self::$userClass = Application::$app->user;
+        return call_user_func_array([Auth::class, $name], $arguments);
     }
 
-    public static function login(DBModel $user)
+    public static function login(DBModel $user):bool
     {
-        self::$user = $user;
-        $primaryKey = $user->primaryKey();
-        $primaryKeyValue = $user->{$primaryKey};
-        self::$session->set('user',$primaryKeyValue);
-
+        try {
+            self::$user = $user;
+            $primaryKey = $user->primaryKey();
+            $primaryKeyValue = $user->{$primaryKey};
+            self::$session->set('user',$primaryKeyValue);
+            return true;
+        }catch (\Exception $e){
+            return false;
+        }
     }
 
     public static function logout()
     {
         self::$user = null;
-        self::$session->remove('user');
+        $session = Application::$app->session;
+        $session->remove('user');
     }
 
     public static function user()
     {
-        $userId = self::$session->get('user');
+        dd(self::$session);
+        $userId =  self::$session->get('user');
         if ($userId) {
-            $key = self::$dbClass->primaryKey();
-            self::$user = self::$dbClass::findOne([$key => $userId]);
+            $key = self::$userClass->primaryKey();
+            $userFind = self::$user = self::$userClass::findOne([$key => $userId]);
+            if(!$userFind){
+                return null;
+            }
+            return $userFind;
         }
+        return null;
     }
 
 }

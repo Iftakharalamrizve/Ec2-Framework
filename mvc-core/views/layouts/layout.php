@@ -1,3 +1,9 @@
+<?php
+
+use app\core\auth\Auth;
+
+dd ( Auth::user ());
+?>
 <!doctype html>
 <html lang="en">
 <head>
