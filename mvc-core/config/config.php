@@ -27,9 +27,6 @@ return [
     | you may use many connections at once using the Database library.
     |
     */
-
-    'user'=>app\models\User::class,
-
     'database' => [
         'mysql' => [
             'driver' => 'mysql',
@@ -47,6 +44,28 @@ return [
             'strict' => true,
             'engine' => null
         ],
+    ],
+    /*
+    |--------------------------------------------------------------------------
+    | Default User Table Configure 
+    |--------------------------------------------------------------------------
+    |
+    | This Class define whice Class is define for system user . 
+    | This is the default class for system 
+    |
+    */
+    'user'=>app\models\User::class,
+    /*
+    |--------------------------------------------------------------------------
+    | Middleware  Configure 
+    |--------------------------------------------------------------------------
+    |
+    | This Class define whice Class is define for system user . 
+    | This is the default class for system 
+    |
+    */
+    'routeMiddleware'=>[
+        'auth'=>app\middleware\AuthMiddleware::class
     ]
 
 ];

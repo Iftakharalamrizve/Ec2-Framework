@@ -102,4 +102,14 @@ class AuthController extends Controller
         }
 
     }
+
+    public function profile()
+    {
+        $findUser = Auth::user();
+        $data = ['title' => 'Pfofile Page','user'=>$findUser];
+        if($findUser){
+            return $this->render('layout','prifile',$data);
+        }
+        return $this->redirect('/');
+    }
 }

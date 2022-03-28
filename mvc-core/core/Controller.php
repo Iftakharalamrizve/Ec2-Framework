@@ -6,7 +6,7 @@ namespace app\core;
 
 class Controller
 {
-    use RenderTrait;
+    use RenderTrait,RedirectTrait;
     /**
      * @var string
      */

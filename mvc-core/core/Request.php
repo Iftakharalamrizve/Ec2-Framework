@@ -5,6 +5,7 @@ namespace app\core;
 
 class Request
 {
+    use RedirectTrait;
     /**
      * @var array
      */
