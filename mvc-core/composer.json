@@ -2,7 +2,7 @@
     "name": "iftakharalamrizve/mvc-core",
     "autoload": {
         "files": [
-            "./support/common.php"
+
         ],
         "psr-4": {
             "app\\": "./"

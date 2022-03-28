@@ -13,16 +13,30 @@ abstract class DBModel extends Model  implements  ORMInterFace
      */
     public array $attributes = [];
 
+    /**
+     * @return string
+     */
     public function primaryKey(): string
     {
         return $this->primaryKey??'id';
     }
 
+
+    /**
+     * @param $propertyName
+     * @param $value
+     * @return void
+     */
     public function __set($propertyName , $value)
     {
         $this->attributes[$propertyName] = $value;
     }
 
+
+    /**
+     * @param $name
+     * @return mixed|void
+     */
     public function __get($name)
     {
         if(array_key_exists ( $name , $this->attributes)) {
@@ -49,7 +63,12 @@ abstract class DBModel extends Model  implements  ORMInterFace
 
     }
 
-    public function haveAnyMutators($key,$value) : bool
+    /**
+     * @param $key
+     * @param $value
+     * @return bool
+     */
+    public function haveAnyMutators($key, $value) : bool
     {
         $functionName = 'set'.str_replace(' ','',ucwords(str_replace ( '_' , ' ' , $key))).'Attribute';
           if(method_exists($this,$functionName)){

@@ -4,11 +4,26 @@ namespace app\core\DBModel;
 
 interface ORMInterFace
 {
+    /**
+     * @return bool
+     */
     public function save():bool;
 
-    public function create(array $data):array;
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function create( array $data):array;
 
-    public function update(array $data):array;
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function update( array $data):array;
 
-    public function delete(array $data):bool;
+    /**
+     * @param array $data
+     * @return bool
+     */
+    public function delete( array $data):bool;
 }

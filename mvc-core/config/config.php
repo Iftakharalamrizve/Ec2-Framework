@@ -60,7 +60,7 @@ return [
     | Middleware  Configure 
     |--------------------------------------------------------------------------
     |
-    | This Class define whice Class is define for system user . 
+    | This Class is define  for system user .
     | This is the default class for system 
     |
     */
