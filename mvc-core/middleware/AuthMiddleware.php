@@ -14,5 +14,6 @@ class AuthMiddleware extends Middleware
             return $request->redirect ( '/login');
         }
 
+
     }
 }

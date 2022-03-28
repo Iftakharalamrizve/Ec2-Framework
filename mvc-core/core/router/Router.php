@@ -116,7 +116,7 @@ class Router
         foreach ($arrayMiddleware as $middleware){
             if(array_key_exists ( $middleware , $this->middleware)){
                 $middlewareClassPath = $this->middleware[$middleware];
-                $this->routes[$this->methodType][$this->methodPath]['middleware'] = $middlewareClassPath;
+                $this->routes[$this->methodType][$this->methodPath]['middleware'][] = $middlewareClassPath;
 //                $middlewareClassObj->handle($this->request);
             }
         }
@@ -159,6 +159,9 @@ class Router
        }
 
        if(is_array($callback)){
+           if(isset($callback['middleware'])){
+                array_pop($callback);
+           }
            Application::$app->controller = new $callback[0]() ;
            $callback[0] = Application::$app->controller;
        }
